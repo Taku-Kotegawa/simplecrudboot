@@ -1,6 +1,5 @@
 package com.example.simplecrud.app.user;
 
-import com.example.simplecrud.common.validation.UserDuplicateKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
