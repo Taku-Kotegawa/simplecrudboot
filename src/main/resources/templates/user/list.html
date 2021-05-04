@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<a href="create?form">新規登録</a>
+<a th:href="@{/user/create?form}">新規登録</a>
 
 <table>
     <thead>
@@ -41,10 +41,7 @@
         <tr th:each="user, iterStat : ${userList}" th:class="${iterStat.odd} ? 'odd' : 'even'">
             <td th:text="${iterStat.count}"></td>
             <td>
-                <form autocomplete="off" method="POST" th:action="@{detail}" th:object="${userForm}">
-                    <input type="hidden" name="uid" th:value="${user.uid}" />
-                    <input type="submit" value="参照" />
-                </form>
+                <a th:href="@{/user/detail/{uid}(uid=${user.uid})}">参照</a>
             </td>
             <td th:text="${user.uid}"></td>
             <td th:text="${user.name}"></td>
@@ -58,10 +55,6 @@
 
     </tbody>
 </table>
-
-
-
-
 
 </body>
 </html>

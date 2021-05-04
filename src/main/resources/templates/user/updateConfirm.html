@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form th:object="${userForm}" action="update" autocomplete="off" method="post">
+<form th:object="${userForm}" th:action="@{/user/update}" autocomplete="off" method="post">
 
     <!--/* EnterキーによるPOSTを無効化 */-->
     <input disabled style="display:none" type="submit"/>

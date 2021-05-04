@@ -8,6 +8,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * 毎テスト毎にUserエンティティを全件削除するため、多量のデータが保存されている場合パフォーマンスが悪化します。
  */
 @SpringBootTest
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
 class UserServiceImplTest {
 
     @Autowired

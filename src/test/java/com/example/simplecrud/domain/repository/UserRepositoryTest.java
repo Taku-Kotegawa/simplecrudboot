@@ -121,8 +121,6 @@ class UserRepositoryTest {
         }
     }
 
-
-
     @Nested
     class updateByPrimaryKey {
         @Test

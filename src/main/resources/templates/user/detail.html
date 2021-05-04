@@ -52,18 +52,17 @@
 </table>
 
 
-<a href="list">一覧に戻る</a>
+<a th:href="@{/user/list}">一覧に戻る</a>
 
-<form autocomplete="off" method="POST" action="update" th:object="${userForm}" style="display: inline-block;">
+<form autocomplete="off" method="POST" th:action="@{/user/update}" th:object="${userForm}" style="display: inline-block;">
     <input type="hidden" th:field="*{uid}" />
     <input type="submit" name="form" value="編集" />
 </form>
 
-<form autocomplete="off" method="POST" action="delete" th:object="${userForm}" style="display: inline-block;">
+<form autocomplete="off" method="POST" th:action="@{/user/delete}" th:object="${userForm}" style="display: inline-block;">
     <input type="hidden" th:field="*{uid}" />
     <input type="submit" name="form" value="削除" />
 </form>
-
 
 <!--/* ここまで */-->
 </body>
