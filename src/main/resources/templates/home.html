@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
+    <title>Good Thymes Virtual Grocery</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../static/app/css/styles.css" th:href="@{/app/css/styles.css}">
+</head>
+<body>
+
+    <!--*/ 2.1. /*-->
+    <h2>2.1.</h2>
+    <p th:text="#{home.welcome}">Welcome to our grocery store!</p>
+
+    <!--*/ 2.2. /*-->
+    <h2>2.2.</h2>
+    <p th:text="#{home.welcome2}"></p>
+    <p th:utext="#{home.welcome2}"></p>
+
+    <!--*/ 2.3. /*-->
+    <h2>2.3.</h2>
+    <p th:text="#{today}"></p> <!--*/ 正しく表示されない /*-->
+    <p th:text="${today}"></p>
+    <p th:text="${#temporals.format(today, 'yyyy/MM/dd')}"></p>
+
+    <!--*/ 2.4. /*-->
+    <h2>2.4.</h2>
+    <p th:text="#{home.welcome3(${username})}"></p>
+
+    <!--*/ 2.5. /*-->
+    <h2>2.5.</h2>
+    <p th:text="${user.username}"></p>
+    <p th:text="${user.age}"></p>
+    <p th:text="${#temporals.format(user.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
+
+    <!--*/ 2.6. /*-->
+    <h2>2.6.</h2>
+    <p th:text="${stringList[0]}"></p>
+    <p th:text="${stringList[1]}"></p>
+    <p th:text="${stringList[2]}"></p>
+
+    <h2>2.7.</h2>
+    <div th:object="${user}">
+        <p>Username: <span th:text="*{username}"></span></p>
+        <p>age: <span th:text="*{age}"></span></p>
+        <p>LastLogin: <span th:text="*{#temporals.format(lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></span></p>
+    </div>
+
+    <h2>2.8.</h2>
+    <!-- 'http://localhost:8080/gtvg/order/details?orderId=3'になります -->
+    <!-- （そして属性を書き換えます） -->
+    <a th:href="@{http://localhost:8080/gtvg/order/details(orderId=${user.id})}">view1</a>
+
+    <!-- '/gtvg/order/details?orderId=3'になります（と属性書き換え） -->
+    <a th:href="@{/order/details(orderId=${user.id})}">view2</a>
+
+    <!-- '/gtvg/order/3/details'になります（と属性書き換え） -->
+    <a th:href="@{/order/{orderId}/details(orderId=${user.id})}">view3</a>
+
+    <h2>2.9.</h2>
+    <h3>テキストリレラル・数値リテラル</h3>
+    <p th:text="123 + 1"></p>
+    <p th:text="'123' + 1"></p>
+    <p th:text="'123 + 1'"></p>
+
+    <h3>真偽値リテラル</h3>
+    <div th:if="${user.admin} == true">
+        <p>私は管理者です。</p>
+    </div>
+    <div th:if="${user.admin} == false">
+        <p>私は管理者ではありません。</p>
+    </div>
+
+    <h3>NULLリテラル</h3>
+    <div th:if="${nullObject} == null">
+        <p>nullObjectはNULLです。</p>
+    </div>
+
+    <h3>リテラルトークン</h3>
+    <!--
+        文字（全角、A-Zとa-z）、数字（0-9）、括弧（[と]）、ドット（.）、ハイフン（-）そしてアンダースコア（_）のケースは
+        囲み文字(シングルクォテーション)を省略してもテキストリテラル扱いなります。
+    -->
+    <p th:text="abcdeefghijkomnopqrstuvwxyz0123456789[].-_あいう"></p>
+
+    <h3>テキスト結合</h3>
+    <!-- 文字列結合は '+' -->
+    <p th:text="'The name of the user is ' + ${user.username}"></p>
+
+    <h3>リテラル置換</h3>
+    <!-- || で囲むと文字列と変数式をまとめて記述できる -->
+    <p th:text="|Welcome to our application, ${user.username}!|"></p>
+
+    <h2>2.10.</h2>
+    <!-- 算術演算子「+、-、*、/、%」が使えます。 -->
+    <div th:with="isEven=(${user.age} % 2 == 0)">
+        <p th:if="${isEven}">年齢は偶数です。</p>
+    </div>
+    <div th:with="isEven=(${user.age} % 2 == 1)">
+        <p th:if="${isEven}">年齢は奇数です。</p>
+    </div>
+    <!--比較演算子は記号でも文字でも使えるが<>はXMLの属性値としてはあまり推奨されません。-->
+    <!--gt(>)、lt(<)、ge(>=)、le(<=)、not(!)、eq(==)、neq/ne(!=) -->
+    <div th:if="${user.age} &gt; 1">
+        <span th:text="'Execution mode is ' + ( (${execMode} == 'dev')? 'Development' : 'Production')"></span>
+    </div>
+
+    <h2>2.11.</h2>
+    <!-- divタグのclass属性を動的に設定(ブラウザの開発ツールで結果を確認)-->
+    <div th:class="${user.age} &gt; 1? 'even' : 'odd'">
+        ...
+    </div>
+
+    <h2>2.12.</h2>
+    <!-- 変数式の結果がNULLの場合に返す値を定義できる -->
+    <div th:object="${user}">
+        <p>Age: <span th:text="*{age}?: '(no age specified)'"></span>.</p>
+    </div>
+    <div th:object="${user2}">
+        <p>Age: <span th:text="*{age}?: '(no age specified)'"></span>.</p>
+    </div>
+
+
+    <h2>2.14.</h2>
+    <h3>任意の属性に値を設定</h3>
+    <form action="subscribe.html" th:attr="action=@{/subscribe}">
+            <input type="text" name="email" />
+            <input type="submit" value="Subscribe!" th:attr="value=#{home.welcome}"/>
+    </form>
+
+    <!-- カンマ区切りで複数指定可能 -->
+    <p>
+        <img src="https://pikara-hikari.net/img/logo_pchan.png"
+             th:attr="src=@{https://pikara-hikari.net/img/logo_pchan.png},title=#{home.welcome},alt=#{home.welcome}" />
+    </p>
+
+    <h3>特定の属性に値を設定</h3>
+    <p>
+        <input type="submit" value="Subscribe!" th:value="#{home.welcome}"/>
+    </p>
+    <div>
+        <form action="subscribe.html" th:action="@{/subscribe}"></form>
+    </div>
+    <div>
+        <ul>
+            <li><a href="product/list.html" th:href="@{/product/list}">Product List</a></li>
+        </ul>
+    </div>
+
+    <h3>複数の値を同時に設定</h3>
+    <div>
+        <!-- th:alt-title, th:lang-xmllang は特殊な属性で同時に２つの属性を設定できる-->
+        <img src="https://pikara-hikari.net/img/logo_pchan.png"
+             th:src="@{https://pikara-hikari.net/img/logo_pchan.png}" th:alt-title="#{home.welcome}" />
+    </div>
+
+    <h3>前後に追加</h3>
+    <div th:with="cssStyle='warning'">
+        <input type="button" value="Do it!" class="btn" th:attrappend="class=${' ' + cssStyle}" />
+    </div>
+    <div th:with="cssStyle='warning'">
+        <p class="row" style="row" th:classappend="${cssStyle}"></p>
+    </div>
+    <div th:with="cssStyle='warning'">
+        <p class="row" style="row" th:styleappend="${cssStyle}"></p>
+    </div>
+
+    <h3>固定値の真偽値属性</h3>
+    <div th:with="checkboxStatus=true">
+        <input type="checkbox" name="active" th:checked="${checkboxStatus}" />
+    </div>
+
+    <h2>2.15.</h2>
+    <table>
+        <tr>
+            <th>NAME</th>
+        </tr>
+        <tr th:each="string : ${stringList}">
+            <td th:text="${string}"></td>
+        </tr>
+    </table>
+
+    <h2>2.16.</h2>
+    <table>
+        <tr>
+            <th>NAME</th>
+        </tr>
+        <tr th:each="string,iterStat : ${stringList}" th:class="${iterStat.odd}? 'odd' : 'even'">
+            <td th:text="${string}"></td>
+        </tr>
+    </table>
+
+    <h2>2.17.</h2>
+    <div>
+        <a th:href="@{/product/comments(prodId=${user.id})}"
+           th:if="true">view1</a>
+    </div>
+    <div>
+        <a th:href="@{/product/comments(prodId=${user.id})}"
+           th:if="false">view2</a>
+    </div>
+    <!-- th:if が設定された要素自信とその配下要素を出力を制御する。 -->
+    <div th:if="false">
+        <div>
+            ああああああああああああああああああ
+        </div>
+    </div>
+    <!-- th:unlessはth:ifの反対-->
+    <div>
+        <a th:href="@{/product/comments(prodId=${user.id})}"
+           th:unless="true">click1</a>
+    </div>
+    <div>
+        <a th:href="@{/product/comments(prodId=${user.id})}"
+           th:unless="false">click2</a>
+    </div>
+
+    <h2>2.18.</h2>
+    <div th:switch="${user.username}">
+        <p th:case="'user1'">User is an User1.</p>
+        <p th:case="#{roles.manager}">User is a manager</p>
+        <p th:case="*">User is some other thing</p>
+    </div>
+
+
+
+
+</body>
+</html>
