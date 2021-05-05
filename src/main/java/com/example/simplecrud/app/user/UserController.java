@@ -75,8 +75,7 @@ public class UserController {
             User user = beanMapper.map(form, User.class);
             userService.create(user);
         } catch (DuplicateKeyBusinessException e) {
-            // 本来はカスタムバリデーションを作ってキー重複をチェックすべき(確認ボタン押下時にチェック)だが、カスタムバリデーション
-            // は後ほどの演習で学習するので、ひとまず、保存ボタン押下時にキー重複を検出して表示する仕組みで実装
+            // 画面でもチェックしているが、念の為テーブル更新時のエラーを画面表示する。
             model.addAttribute(ResultMessages.error().add("user.duplicateKey", form.getUid()));
             return createRedo(form, model);
         } catch (DataIntegrityViolationException e) {

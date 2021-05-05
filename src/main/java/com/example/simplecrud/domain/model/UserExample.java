@@ -1,5 +1,7 @@
 package com.example.simplecrud.domain.model;
 
+import com.example.simplecrud.common.validation.UserDuplicateKey;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
