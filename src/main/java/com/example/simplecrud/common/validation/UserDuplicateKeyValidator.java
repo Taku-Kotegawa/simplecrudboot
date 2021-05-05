@@ -18,6 +18,9 @@ public class UserDuplicateKeyValidator implements ConstraintValidator<UserDuplic
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return true;
+        }
         // 同じIDのデータが未登録の場合、検査合格
         User user = userRepository.selectByPrimaryKey(value);
         return user == null;
